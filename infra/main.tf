@@ -35,7 +35,7 @@ resource "azuread_application_federated_identity_credential" "github_oidc_main" 
   description           = "GitHub Actions OIDC para main"
   audiences            = ["api://AzureADTokenExchange"]
   issuer               = "https://token.actions.githubusercontent.com"
-  subject              = "repo:jdasaji/hello-dev-prod:ref:refs/heads/main"
+  subject              = "repo:dasaji-timia/hello-dev-prod:ref:refs/heads/main"
 }
 
 resource "azuread_application_federated_identity_credential" "github_oidc_dev" {
@@ -44,7 +44,7 @@ resource "azuread_application_federated_identity_credential" "github_oidc_dev" {
   description           = "GitHub Actions OIDC para dev"
   audiences            = ["api://AzureADTokenExchange"]
   issuer               = "https://token.actions.githubusercontent.com"
-  subject              = "repo:jdasaji/hello-dev-prod:ref:refs/heads/dev"
+  subject              = "repo:dasaji-timia/hello-dev-prod:ref:refs/heads/dev"
 }
 
 # 4️⃣ Asignar permisos de "Contributor" al Service Principal en la suscripción de Azure
