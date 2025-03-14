@@ -10,5 +10,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Serr running on http://localhost:${PORT}`);
+    console.log(`Serr testung-dev-prod on http://localhost:${PORT}`);
 });
