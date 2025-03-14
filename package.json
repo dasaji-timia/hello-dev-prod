@@ -1,0 +1,26 @@
+{
+    "name": "hello-wordl",
+    "version": "1.0.0",
+    "main": "server.js", 
+    "scripts": {
+      "start": "node server.js",
+      "build": "echo \"Error: no test specied\""
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/jdasaji/hello-wordl.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/jdasaji/hello-wordl/issues"
+    },
+    "homepage": "https://github.com/jdasaji/hello-wordl#readme",
+    "description": "",
+    "dependencies": {
+      "dotenv": "^16.4.7",
+      "express": "^4.21.2"
+    }
+  }
+  

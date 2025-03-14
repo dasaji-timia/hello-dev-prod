@@ -1,3 +1,27 @@
+# Ignorar archivos y carpetas de Terraform dentro del directorio infra
+
+# Directorios de configuración local de Terraform
+infra/.terraform/
+
+# Archivos de estado de Terraform
+infra/*.tfstate
+infra/*.tfstate.*
+
+# Archivos de configuración sensibles
+infra/*.tfvars
+
+# Archivos de override de Terraform
+infra/override.tf
+infra/override.tf.json
+infra/*_override.tf
+infra/*_override.tf.json
+
+# Archivos generados por Terraform como crash logs
+infra/crash.log
+
+# Archivos binarios de proveedores (por ejemplo, .exe)
+infra/*.exe
+
 # Logs
 logs
 *.log

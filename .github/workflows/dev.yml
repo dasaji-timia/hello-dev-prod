@@ -1,0 +1,67 @@
+name: Deploy to Azure App Service
+
+on:
+  push:
+    branches:
+      - dev  # O la rama en la que quieres que se despliegue automáticamente
+
+permissions:
+  id-token: write  # Esto es necesario para la autenticación de Azure
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # O la versión de Node.js que necesites
+
+      - name: Install dependencies
+        run: npm install  # O el comando que uses para instalar dependencias, si no usas npm ajusta este paso
+
+      - name: Build application
+        run: npm run build  # O el comando que uses para compilar/empacar tu aplicación, si no usas npm ajusta este paso
+
+      - name: Verify secrets before login (safe)
+        run: |
+          echo "Client ID (first 5 chars): ${AZURE_CLIENT_ID:0:5}"
+          echo "Tenant ID (first 5 chars): ${AZURE_TENANT_ID:0:5}"
+          echo "Client Secret (first 5 chars): ${AZURE_CLIENT_SECRET:0:5}"
+          echo "Subscription ID (first 5 chars): ${AZURE_SUBSCRIPTION_ID:0:5}"
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}          
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}            
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # 2. Listar todos los archivos de la raíz
+      - name: List files in the repository root
+        run: |
+          echo "Listing files in the root directory:"
+          ls -la  # Esto listará todos los archivos de la raíz
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Package project into a zip file
+        run: |
+          zip -r app.zip ./*  
+
+      - name: Deploy to Azure Web -
+        run: |
+          az webapp deploy --resource-group myResourceGroup-git-actions --name webapp-dev-timia-01 --src-path app.zip --type zip
+        env:
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
